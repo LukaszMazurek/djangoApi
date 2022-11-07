@@ -2,11 +2,15 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.generics import GenericAPIView
 from .models import Item
 from .serializers import ItemSerializer
 
 
-class ItemList(APIView):
+class ItemList(GenericAPIView):
+
+    serializer_class = ItemSerializer
+
     def get(self, request, format=None):
         item = Item.objects.all()
         serializer = ItemSerializer(item, many=True)
@@ -20,10 +24,12 @@ class ItemList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ItemDetail(APIView):
+class ItemDetail(GenericAPIView):
     """
     Retrieve, update or delete a snippet instance.
     """
+    serializer_class = ItemSerializer
+
     def get_object(self, pk):
         try:
             return Item.objects.get(pk=pk)
