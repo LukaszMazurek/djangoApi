@@ -1,7 +1,14 @@
 from rest_framework import serializers
-from .models import Item
+from .models import Image, Gallery
 
-class ItemSerializer(serializers.ModelSerializer):
+
+class ImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Item
+        model = Image
+        fields = ('__all__')
+
+
+class GallerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gallery
         fields = ('__all__')
