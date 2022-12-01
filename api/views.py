@@ -16,7 +16,30 @@ def get_users_collection():
     return db['Users']
 
 
+def get_picture_collection():
+    url = "mongodb://localhost:27017/"
+
+    client = MongoClient(url)
+    db = client['galleryDB']
+    return db['Users']
+
+
 class UserList(GenericAPIView):
+
+    collection = get_users_collection()
+
+    def post(self, request, format=None):
+        data = dict(request.data)
+        self.collection.insert_one(data).inserted_id()
+        return Response(data)
+
+    def get(self, request, format=None):
+        data = list(self.collection.find())
+        data_clear = [{'first_name': row['first_name'], 'last_name': row['last_name']} for row in data]
+        return Response(data_clear)
+
+
+class PictureList(GenericAPIView):
 
     collection = get_users_collection()
 

@@ -19,3 +19,9 @@ class Image(models.Model):
     def __str__(self):
         return self.name
 
+
+class Picture:
+    name: str
+    path: str
+    size: int
+
