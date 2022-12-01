@@ -21,7 +21,7 @@ def get_picture_collection():
 
     client = MongoClient(url)
     db = client['galleryDB']
-    return db['Users']
+    return db['Pictures']
 
 
 class UserList(GenericAPIView):
@@ -41,7 +41,7 @@ class UserList(GenericAPIView):
 
 class PictureList(GenericAPIView):
 
-    collection = get_users_collection()
+    collection = get_picture_collection()
 
     def post(self, request, format=None):
         data = dict(request.data)
@@ -50,7 +50,7 @@ class PictureList(GenericAPIView):
 
     def get(self, request, format=None):
         data = list(self.collection.find())
-        data_clear = [{'first_name': row['first_name'], 'last_name': row['last_name']} for row in data]
+        data_clear = [{'name': row['name']} for row in data]
         return Response(data_clear)
 
 
