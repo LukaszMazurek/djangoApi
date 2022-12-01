@@ -39,18 +39,23 @@ class UserList(GenericAPIView):
         return Response(data_clear)
 
 
+class HomeSite(GenericAPIView):
+    def get(self, request, format=None):
+        return Response({"message": "not implemented yet"})
+
+
 class PictureList(GenericAPIView):
 
     collection = get_picture_collection()
 
     def post(self, request, format=None):
         data = dict(request.data)
-        self.collection.insert_one(data).inserted_id()
-        return Response(data)
+        self.collection.insert_one(data)
+        return Response({"message": "success"})
 
     def get(self, request, format=None):
         data = list(self.collection.find())
-        data_clear = [{'name': row['name']} for row in data]
+        data_clear = [{'name': row['name'], 'path': row['path'], 'size': row['size']} for row in data]
         return Response(data_clear)
 
 
